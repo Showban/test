@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koder SPA - Sistema de Soporte</title>
+    <!-- Importamos la fuente moderna sans-serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4ebf5 100%);
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.8) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(210,225,245,0.6) 0%, transparent 60%);
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- PANTALLA PRINCIPAL (DISEÑO 1) --- */
+        #main-screen {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            background-color: #165ecb38;
+        }
+        nav{
+            display: flex;
+            width: 100%;
+            padding: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 0.2rem solid #165ecb;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            min-width: 12rem;
+        }
+
+        .logo-circle {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            box-shadow: 0 8px 20px rgba(0, 114, 255, 0.3);
+        }
+
+        .logo-circle span {
+            color: white;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .brand-name {
+            font-size: 22px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+            align-items: left;
+            margin-left: 2rem;
+            margin-right: 40px;
+        }
+
+        .btn-nav {
+            background-color: #1e70efff;
+            color: white;
+            text-decoration: none; /* Quitamos el subrayado del enlace */
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(30, 112, 239, 0.3);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-nav:hover {
+            background-color: #165ecb;
+            transform: translateY(-2px);
+        }
+
+        .search-container {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-width: 12rem;
+        }
+
+        .search-input {
+            border: none;
+            border-bottom: 2px solid #165ecb;
+            background: transparent;
+            padding: 8px 30px 8px 10px;
+            font-size: 16px;
+            color: black;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-input::placeholder {
+            color: #718096;
+            font-style: italic;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 8px;
+            color: #a0aec0;
+        }
+
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            position: relative;
+            z-index: 10;
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            color: #38b6ff;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #2d3748;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 400;
+            max-width: 580px;
+        }
+
+        .btn-action {
+            background-color: #38b6ff;
+            color: white;
+            border: 3px solid #000000;
+            padding: 16px 35px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            width: fit-content;
+            margin-top: 20px;
+            box-shadow: 0 5px 0px #000000;
+            transition: all 0.1s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0px #000000;
+        }
+
+        /* --- PANTALLA CHATBOX (DISEÑO 2) --- */
+        #chat-screen {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 60px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .chat-left-title {
+            font-size: 72px;
+            font-weight: 700;
+            color: #38b6ff;
+            line-height: 1.1;
+            max-width: 400px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .bot-name {
+            font-size: 54px;
+            font-weight: 800;
+            color: #38b6ff;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .tablet-frame {
+            background-color: #000000;
+            border-radius: 35px;
+            padding: 18px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            aspect-ratio: 4 / 5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tablet-screen {
+            background-color: #dcdcdc;
+            border-radius: 20px;
+            flex-grow: 1;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .chat-history {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 5px;
+        }
+
+        .chat-bubble {
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            line-height: 1.4;
+            max-width: 85%;
+            color: #1a1a1a;
+            font-weight: 500;
+            word-wrap: break-word;
+        }
+
+        .bubble-bot {
+            background-color: #a3a3a3;
+            align-self: flex-start;
+            border-top-left-radius: 5px;
+            font-style: italic;
+        }
+
+        .bubble-user {
+            background-color: #8c8c8c;
+            align-self: flex-end;
+            border-top-right-radius: 5px;
+        }
+
+        .bubble-bot a {
+            color: #0040ff;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+
+        .chat-controls {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-question {
+            background-color: #1e70ef;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+
+        .btn-question:hover {
+            background-color: #1456be;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            border: none;
+            color: #4a5568;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: underline;
+            align-self: center;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 900px) {
+            .hero-section { 
+                padding: 20px;
+                align-items: center;
+            }
+            h1, .chat-left-title { font-size: 45px; }
+            #chat-screen {
+                flex-direction: column;
+                padding: 20px;
+                justify-content: center;
+            }
+            .chat-left-title { text-align: center; }
+
+            nav {
+                flex-direction: column;
+                padding: 0;
+                padding-top: 1rem;
+            }
+            .nav-buttons{
+                margin-top: 1rem;
+                justify-content: space-between;
+                margin: 0;
+                margin-bottom: 2rem;
+            }
+            .logo-container{
+                margin-bottom: 2rem;
+            }
+            .search-container{
+                width: 90%;
+                margin-bottom: 1rem;
+            }
+            .search-input{
+                width: 100%;
+            }
+            .btn-nav{
+                font-size: 14px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- PANTALLA 1: SISTEMA DE SOPORTE PRINCIPAL   -->
+    <!-- ========================================== -->
+    <div id="main-screen">
+        <header>
+            <nav>
+                <div class="logo-container">
+                    <div class="logo-circle"><span>K</span></div>
+                    <span class="brand-name">Koder SPA</span>
+                </div>
+                <!-- Botones actualizados con enlaces externos -->
+                <div class="nav-buttons">
+                    <a href="https://www.koderspa.cl/" target="_blank" class="btn-nav">Ir a la página principal</a>
+                    <a href="https://www.koderspa.cl/#faq" target="_blank" class="btn-nav">Preguntas frecuentes</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Buscar...">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+            </nav>
+        </header>
+
+        <main class="hero-section">
+            <h1>Sistema de<br>soporte</h1>
+            <p class="description">
+                Este soporte fue creado para poder atender todos sus problemas en base a nuestra nueva IA, ¡K-AI!
+            </p>
+            <p class="description">
+                Este sistema funciona recopilando todas las retroalimentaciones que nos proporcionan, crea un filtro y las muestra a nuestro equipo para poder ofrecerles un mejor servicio, otorgando soluciones en tiempo real!
+            </p>
+            <button class="btn-action" onclick="openChatbot()">Solicitar ayuda</button>
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PANTALLA 2: INTERFAZ DEL CHATBOT (K-AI)    -->
+    <!-- ========================================== -->
+    <div id="chat-screen">
+        <div class="chat-left-title">
+            Sistema de<br>soporte
+        </div>
+
+        <div class="chat-container">
+            <div class="bot-name">K-AI</div>
+            
+            <div class="tablet-frame">
+                <div class="tablet-screen">
+                    
+                    <div class="chat-history" id="chat-history">
+                        <div class="chat-bubble bubble-bot">
+                            Hola! Soy tu asistente para resolver tus dudas a nuestros servicios, ¡Puedes preguntarme lo que quieras!
+                        </div>
+                    </div>
+
+                    <div class="chat-controls">
+                        <div class="quick-questions">
+                            <!-- Texto de botón resumido -->
+                            <button class="btn-question" onclick="askQuestion(1)">
+                                1. Ver precio de página web simple
+                            </button>
+                            <button class="btn-question" onclick="askQuestion(2)">
+                                2. ¿Qué es GitHub?
+                            </button>
+                        </div>
+                        <button class="btn-back" onclick="closeChatbot()">Volver al inicio</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- LÓGICA DE INTERACCIÓN (JAVASCRIPT)          -->
+    <!-- ========================================== -->
+    <script>
+        const mainScreen = document.getElementById('main-screen');
+        const chatScreen = document.getElementById('chat-screen');
+        const chatHistory = document.getElementById('chat-history');
+
+        function openChatbot() {
+            mainScreen.style.display = 'none';
+            chatScreen.style.display = 'flex';
+        }
+
+        function closeChatbot() {
+            chatScreen.style.display = 'none';
+            mainScreen.style.display = 'flex';
+        }
+
+        function askQuestion(option) {
+            let userText = "";
+            let botText = "";
+
+            if (option === 1) {
+                // Mantiene la pregunta completa en el globo del chat y la respuesta solicitada
+                userText = "Hola, necesito saber el precio de un modelo de pagina web simple para mi negocio.";
+                botText = "Ese dato no te lo puedo dar yo ya que depende de diferentes variables, sin embargo te dejo el link para que puedas consultarlo directamente con nuestro equipo! <br><a href='https://www.koderspa.cl/contacto' target='_blank'>https://www.koderspa.cl/contacto</a>";
+            } else if (option === 2) {
+                userText = "¿Qué es GitHub?";
+                botText = "GitHub es una plataforma en la nube que permite a los desarrolladores almacenar, gestionar y realizar un seguimiento de los cambios en su código fuente. Funciona utilizando Git (un sistema de control de versiones) y facilita enormemente el trabajo en equipo de forma colaborativa.";
+            }
+
+            // Crear mensaje de usuario
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble bubble-user';
+            userBubble.innerText = userText;
+            chatHistory.appendChild(userBubble);
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            // Simular respuesta del bot K-AI
+            setTimeout(() => {
+                const botBubble = document.createElement('div');
+                botBubble.className = 'chat-bubble bubble-bot';
+                botBubble.innerHTML = botText;
+                chatHistory.appendChild(botBubble);
+                
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
